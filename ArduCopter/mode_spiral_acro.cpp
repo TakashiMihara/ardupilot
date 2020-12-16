@@ -176,9 +176,9 @@ void ModeSpiralAcro::spiral_run()
     pos_control->set_max_accel_z(g.pilot_accel_z);
 
     // Calc spiral radius and climb rate based on atltude
-    int32_t height_cm = get_alt_above_ground_cm();
+    int32_t height_cm = copter.current_loc.alt;
     float spiral_climb_rate = 150-height_cm/100;
-    float spiral_radius = 1000-((height_cm-1000)/10);
+    float spiral_radius = (height_cm-1000)/10;
     if(spiral_radius < 100){
         spiral_radius = 100;
     }
@@ -217,7 +217,7 @@ void ModeSpiralAcro::spiral_run()
     pos_control->update_z_controller();
 
     // alt >= threshold(SpiralAltcm)
-    if(get_alt_above_ground_cm() >= SpiralAltcm){
+    if(copter.current_loc.alt >= SpiralAltcm){
         //acro start 
         acro_start();
     }
